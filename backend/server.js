@@ -2,21 +2,25 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-require('dotenv').config(); // config env mongodb connection => ATLAS_URI=mongodb+srv://dbUser:123qwe@cluster0-deshu.gcp.mongodb.net/test?retryWrites=true&w=majority
+require('dotenv').config();
 
-const app = express(); // add value express
-const port = process.env.PORT || 5000; // set port 
+const app = express();
+const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
 
 const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }
-);
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('handle success');
+  }).catch((err) => {
+    console.error('handle erorr: ', err.message)
+  });
 
 const connection = mongoose.connection;
 connection.once('open', () => {
-    console.log("MongoDB database connection establised successfully");
+  console.log("MongoDB database connection established successfully");
 })
 
 const exercisesRouter = require('./routes/exercises');
@@ -26,5 +30,5 @@ app.use('/exercises', exercisesRouter);
 app.use('/users', usersRouter);
 
 app.listen(port, () => {
-    console.log(`Server is running on port: ${port}`);
+  console.log(`Server is running on port: ${port}`);
 });
