@@ -12,12 +12,12 @@ export default class EditExercise extends Component {
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeDuration = this.onChangeDuration.bind(this);
         this.onChangeDate = this.onChangeDate.bind(this);
-
+        this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
             username: '',
             description: '',
-            duratoin: 0,
+            duration: 0,
             date: new Date(),
             users: []
         }
